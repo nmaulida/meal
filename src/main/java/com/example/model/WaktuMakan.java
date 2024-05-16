@@ -4,7 +4,6 @@ import lombok.Data;
 
 import java.sql.Time;
 
-import org.hibernate.internal.util.ZonedDateTimeComparator;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

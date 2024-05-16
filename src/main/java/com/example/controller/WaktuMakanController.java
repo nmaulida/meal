@@ -1,8 +1,6 @@
 package com.example.controller;
 
-import com.example.model.KategoriMenu;
 import com.example.model.WaktuMakan;
-import com.example.service.KategoriMenuService;
 import com.example.service.WaktuMakanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
