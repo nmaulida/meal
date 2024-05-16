@@ -1,5 +1,7 @@
 package com.example.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import com.example.model.KategoriMenu;
 import com.example.repository.KategoriMenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +16,6 @@ public class KategoriMenuService {
     @Autowired
     private KategoriMenuRepository kategoriMenuRepository;
 
-    public List<KategoriMenu> getAllKategoriMenus() {
-        return kategoriMenuRepository.findAll();
-    }
-
     public Optional<KategoriMenu> getKategoriMenuById(Long id) {
         return kategoriMenuRepository.findById(id);
     }
@@ -29,4 +27,12 @@ public class KategoriMenuService {
     public void deleteKategoriMenu(Long id) {
         kategoriMenuRepository.deleteById(id);
     }
-}
+
+    public Page<KategoriMenu> getAllMenus(Pageable pageable) {
+        return kategoriMenuRepository.findAll(pageable);
+    }
+
+    public Page<KategoriMenu> searchMenus(String nama, Pageable pageable) {
+        return kategoriMenuRepository.findByNamaContaining(nama, pageable);
+    }
+}   
