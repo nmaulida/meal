@@ -1,6 +1,5 @@
 package com.example.controller;
 
-import com.example.model.KategoriMenu;
 import com.example.model.Menu;
 import com.example.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ public class MenuController {
 
     @Autowired
     private MenuService menuService;
-
 
     @GetMapping("/{id}")
     public ResponseEntity<Menu> getMenuById(@PathVariable Long id) {

@@ -1,11 +1,11 @@
 package com.example.service;
 
-import com.example.model.KategoriMenu;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.example.model.Menu;
 import com.example.repository.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,7 +15,6 @@ public class MenuService {
 
     @Autowired
     private MenuRepository menuRepository;
-
 
     public Optional<Menu> getMenuById(Long id) {
         return menuRepository.findById(id);

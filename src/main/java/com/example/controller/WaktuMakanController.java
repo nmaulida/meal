@@ -1,12 +1,14 @@
 package com.example.controller;
 
+import com.example.model.KategoriMenu;
 import com.example.model.WaktuMakan;
 import com.example.service.WaktuMakanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -18,10 +20,6 @@ public class WaktuMakanController {
     private WaktuMakanService waktuMakanService;
 
     // Menangani permintaan GET ke endpoint /api/waktu-makan, mengembalikan daftar semua KategoriMenu
-    @GetMapping
-    public List<WaktuMakan> getAllWaktuMakans() {
-        return waktuMakanService.getAllWaktuMakans();
-    }
 
     // Menangani permintaan GET ke endpoint /api/waktu-makan{id}, mengembalikan KategoriMenu berdasarkan ID
     @GetMapping("/{id}")
@@ -29,6 +27,16 @@ public class WaktuMakanController {
         Optional<WaktuMakan> waktuMakan = waktuMakanService.getWaktuMakanById(id);
         return waktuMakan.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    public Page<WaktuMakan> getAllWaktuMakans(Pageable pageable) {
+        return waktuMakanService.getAllWaktuMakans(pageable);
+    }
+
+    @GetMapping("/search")
+    public Page<WaktuMakan> searchWaktuMakans(@RequestParam("nama") String nama, Pageable pageable) {
+        return waktuMakanService.searchWaktuMakans(nama, pageable);
     }
 
     // Menangani permintaan POST ke endpoint /api/kategori-menu, membuat KategoriMenu baru
