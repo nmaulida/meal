@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.model.TeksBerjalan;
@@ -15,10 +17,6 @@ public class TeksBerjalanService {
     @Autowired
     private TeksBerjalanRepository teksBerjalanRepository;
 
-    public List<TeksBerjalan> getAllTeksBerjalans() {
-        return teksBerjalanRepository.findAll();
-    }
-
     public Optional<TeksBerjalan> getTeksBerjalanById(Long id) {
         return teksBerjalanRepository.findById(id);
     }
@@ -29,5 +27,13 @@ public class TeksBerjalanService {
 
     public void deleteTeksBerjalan(Long id) {
         teksBerjalanRepository.deleteById(id);
+    }
+
+    public Page<TeksBerjalan> getAllMenus(Pageable pageable) {
+        return teksBerjalanRepository.findAll(pageable);
+    }
+
+    public Page<TeksBerjalan> searchMenus(String teks, Pageable pageable) {
+        return teksBerjalanRepository.findByTeksContaining(teks, pageable);
     }
 }
