@@ -1,12 +1,14 @@
 package com.example.controller;
 
+import com.example.model.KategoriMenu;
 import com.example.model.Menu;
 import com.example.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -16,16 +18,23 @@ public class MenuController {
     @Autowired
     private MenuService menuService;
 
-    @GetMapping
-    public List<Menu> getAllMenus() {
-        return menuService.getAllMenus();
-    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Menu> getMenuById(@PathVariable Long id) {
         Optional<Menu> menu = menuService.getMenuById(id);
         return menu.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    public Page<Menu> getAllMenus(Pageable pageable) {
+        return menuService.getAllMenus(pageable);
+    }
+
+      @GetMapping("/search")
+    public Page<Menu> searchMenus(@RequestParam("namaMenu") String namaMenu, Pageable pageable) {
+        return menuService.searchMenus(namaMenu, pageable);
     }
 
     @PostMapping
