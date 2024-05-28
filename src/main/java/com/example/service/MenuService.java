@@ -7,6 +7,7 @@ import com.example.model.Menu;
 import com.example.repository.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -20,10 +21,6 @@ public class MenuService {
         return menuRepository.findById(id);
     }
 
-    public Menu saveMenu(Menu menu) {
-        return menuRepository.save(menu);
-    }
-
     public void deleteMenu(Long id) {
         menuRepository.deleteById(id);
     }
@@ -34,5 +31,15 @@ public class MenuService {
 
     public Page<Menu> searchMenus(String namaMenu, Pageable pageable) {
         return menuRepository.findByNamaMenuContaining(namaMenu, pageable);
+    }
+
+    @Transactional
+    public Menu saveMenu(Menu menu) {
+        
+        Optional<Menu> existingMenu = menuRepository.findByNamaMenu(menu.getNamaMenu());
+        if (existingMenu.isPresent()) {
+            throw new IllegalArgumentException("nama menu sudah ada");
+        }
+        return menuRepository.save(menu);
     }
 }
