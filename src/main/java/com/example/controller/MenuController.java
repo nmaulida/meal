@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -66,6 +67,12 @@ public class MenuController {
         public void setMessage(String message) {
             this.message = message;
         }
+    }
+
+    @PostMapping("/batch")
+    public ResponseEntity<List<Menu>> saveMenus(@RequestBody List<Menu> menus) {
+        List<Menu> savedMenus = menuService.saveMenus(menus);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedMenus);
     }
 
     @PutMapping("/{id}")

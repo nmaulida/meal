@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,5 +42,16 @@ public class MenuService {
             throw new IllegalArgumentException("nama menu sudah ada");
         }
         return menuRepository.save(menu);
+    }
+
+    @Transactional
+    public List<Menu> saveMenus(List<Menu> menus) {
+        for (Menu menu : menus) {
+            Optional<Menu> existingMenu = menuRepository.findByNamaMenu(menu.getNamaMenu());
+            if (existingMenu.isPresent()) {
+                throw new IllegalArgumentException("nama menu '" + menu.getNamaMenu() + "' sudah ada");
+            }
+        }
+        return menuRepository.saveAll(menus);
     }
 }
