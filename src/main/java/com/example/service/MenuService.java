@@ -54,4 +54,15 @@ public class MenuService {
         }
         return menuRepository.saveAll(menus);
     }
+
+    @Transactional
+    public String deleteMenus(List<Long> ids) {
+        for (Long id : ids) {
+            if (!menuRepository.existsById(id)) {
+                throw new IllegalArgumentException("Menu dengan ID " + id + " tidak ditemukan");
+            }
+        }
+        menuRepository.deleteAllById(ids);
+        return "Data berhasil dihapus";
+    }
 }

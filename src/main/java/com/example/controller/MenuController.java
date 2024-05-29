@@ -97,4 +97,10 @@ public class MenuController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping("/batch")
+    public ResponseEntity<String> deleteMenus(@RequestBody List<Long> ids) {
+        String responseMessage = menuService.deleteMenus(ids);
+        return ResponseEntity.ok(responseMessage);
+    }
 }
