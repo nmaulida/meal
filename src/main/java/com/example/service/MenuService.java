@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MenuService {
@@ -46,23 +47,22 @@ public class MenuService {
 
     @Transactional
     public List<Menu> saveMenus(List<Menu> menus) {
-        for (Menu menu : menus) {
-            Optional<Menu> existingMenu = menuRepository.findByNamaMenu(menu.getNamaMenu());
-            if (existingMenu.isPresent()) {
-                throw new IllegalArgumentException("nama menu '" + menu.getNamaMenu() + "' sudah ada");
-            }
+        // Memeriksa duplikasi sebelum menyimpan
+        List<String> menuNames = menus.stream().map(Menu::getNamaMenu).collect(Collectors.toList());
+        List<Menu> existingMenus = menuRepository.findByNamaMenuIn(menuNames);
+        if (!existingMenus.isEmpty()) {
+            throw new IllegalArgumentException("Beberapa nama menu sudah ada: " + 
+                existingMenus.stream().map(Menu::getNamaMenu).collect(Collectors.joining(", ")));
         }
+
         return menuRepository.saveAll(menus);
     }
 
     @Transactional
     public String deleteMenus(List<Long> ids) {
-        for (Long id : ids) {
-            if (!menuRepository.existsById(id)) {
-                throw new IllegalArgumentException("Menu dengan ID " + id + " tidak ditemukan");
-            }
-        }
         menuRepository.deleteAllById(ids);
         return "Data berhasil dihapus";
     }
+
+    
 }

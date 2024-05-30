@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.model.KategoriMenu;
+import com.example.model.RequestKategorimenu;
 import com.example.service.KategoriMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +19,6 @@ public class KategoriMenuController {
     // Menginjeksi dependency KategoriMenuService
     @Autowired
     private KategoriMenuService kategoriMenuService;
-
-    // Menangani permintaan GET ke endpoint /api/kategori-menu, mengembalikan daftar semua KategoriMenu
 
     // Menangani permintaan GET ke endpoint /api/kategori-menu/{id}, mengembalikan KategoriMenu berdasarkan ID
     @GetMapping("/{id}")
@@ -69,5 +68,10 @@ public class KategoriMenuController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PostMapping("/kategori-menus")
+    public RequestKategorimenu createKategoriMenus(@RequestBody RequestKategorimenu requestKategorimenu) {
+        return requestKategorimenu;
     }
 }
