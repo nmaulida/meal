@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.model.Menu;
 import com.example.model.WaktuMakan;
 import com.example.service.WaktuMakanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +40,19 @@ public class WaktuMakanController {
     }
 
     // Menangani permintaan POST ke endpoint /api/kategori-menu, membuat KategoriMenu baru
+    // @PostMapping
+    // public WaktuMakan createWaktuMakan(@RequestBody WaktuMakan waktuMakan) {
+    //     return waktuMakanService.saveWaktuMakan(waktuMakan);
+    // }
+
     @PostMapping
-    public WaktuMakan createWaktuMakan(@RequestBody WaktuMakan waktuMakan) {
-        return waktuMakanService.saveWaktuMakan(waktuMakan);
+    public ResponseEntity<WaktuMakan> createWaktuMakan(@RequestBody WaktuMakan waktuMakan) {
+        Optional<WaktuMakan> existingWaktuMakan = waktuMakanService.getWaktuMakanByNama(waktuMakan.getNama());
+        if (existingWaktuMakan.isPresent()) { // melakukan pengecekan apakah data sebelumnya memiliki nama yang sama
+            return ResponseEntity.status(409).build(); // Conflict
+        }
+        WaktuMakan createdWaktuMakan = waktuMakanService.saveWaktuMakan(waktuMakan);
+        return ResponseEntity.ok(createdWaktuMakan); //.ok memberikan status 'ok' pada body
     }
 
     // Menangani permintaan PUT ke endpoint /api/kategori-menu/{id}, memperbarui KategoriMenu berdasarkan ID

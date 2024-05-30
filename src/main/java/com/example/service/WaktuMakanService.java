@@ -20,6 +20,10 @@ public class WaktuMakanService {
         return waktuMakanRepository.findById(id);
     }
 
+    public Optional<WaktuMakan> getWaktuMakanByNama(String nama) {
+        return waktuMakanRepository.findByNama(nama);
+    }
+
     public Optional<WaktuMakan> getWaktuMakanById(Long id) {
         return waktuMakanRepository.findById(id);
     }
