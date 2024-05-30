@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.model.TeksBerjalan;
+import com.example.model.WaktuMakan;
 import com.example.service.TeksBerjalanService;
 
 import java.util.Optional;
@@ -39,8 +40,16 @@ public class TeksBerjalanController {
 
     // Menangani permintaan POST ke endpoint /api/kategori-menu, membuat KategoriMenu baru
     @PostMapping
-    public TeksBerjalan createTeksBerjalan(@RequestBody TeksBerjalan teksBerjalan) {
-        return teksBerjalanService.saveTeksBerjalan(teksBerjalan);
+    // public TeksBerjalan createTeksBerjalan(@RequestBody TeksBerjalan teksBerjalan) {
+    //     return teksBerjalanService.saveTeksBerjalan(teksBerjalan);
+    // }
+        public ResponseEntity<TeksBerjalan> createTeksBerjalan(@RequestBody TeksBerjalan teksBerjalan) {
+        Optional<TeksBerjalan> existingTeksBerjalan= teksBerjalanService.getTeksBerjalanByTeks(teksBerjalan.getTeks());
+        if (existingTeksBerjalan.isPresent()) { // melakukan pengecekan apakah data sebelumnya memiliki nama yang sama
+            return ResponseEntity.status(409).build(); // Conflict
+        }
+        TeksBerjalan createTeksBerjalan = teksBerjalanService.saveTeksBerjalan(teksBerjalan);
+        return ResponseEntity.ok(createTeksBerjalan); //.ok memberikan status 'ok' pada body
     }
 
     // Menangani permintaan PUT ke endpoint /api/kategori-menu/{id}, memperbarui KategoriMenu berdasarkan ID
