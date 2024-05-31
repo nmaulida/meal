@@ -1,6 +1,5 @@
 package com.example.controller;
 
-import com.example.model.Menu;
 import com.example.model.WaktuMakan;
 import com.example.service.WaktuMakanService;
 import org.springframework.beans.factory.annotation.Autowired;
