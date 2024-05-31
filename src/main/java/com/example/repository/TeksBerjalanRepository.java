@@ -1,5 +1,8 @@
 package com.example.repository;
 
+
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,5 +18,8 @@ public interface TeksBerjalanRepository extends JpaRepository<TeksBerjalan, Long
 
     // Searching
     Page<TeksBerjalan> findByTeksContaining(String teks, Pageable pageable);
+
+    Optional<TeksBerjalan> findByTeks(String Teks);
+
 }
 

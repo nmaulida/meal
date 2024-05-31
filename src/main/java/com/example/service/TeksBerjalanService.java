@@ -20,6 +20,10 @@ public class TeksBerjalanService {
         return teksBerjalanRepository.findById(id);
     }
 
+    public Optional<TeksBerjalan> getTeksBerjalanByTeks(String teks) {
+        return teksBerjalanRepository.findByTeks(teks);
+    }
+
     public TeksBerjalan saveTeksBerjalan(TeksBerjalan teksBerjalan) {
         return teksBerjalanRepository.save(teksBerjalan);
     }
